@@ -1,0 +1,195 @@
+:root {
+	--dawn-base: #faf4ed;
+	--dawn-surface: #fffaf3;
+	--dawn-overlay: #f2e9e1;
+	--dawn-muted: #9893a5;
+	--dawn-subtle: #797593;
+	--dawn-text: #575279;
+	--dawn-love: #b4637a;
+	--dawn-gold: #ea9d34;
+	--dawn-rose: #d7827e;
+	--dawn-pine: #286983;
+	--dawn-foam: #56949f;
+	--dawn-iris: #907aa9;
+	--dawn-highlight-low: #f4ede8;
+	--dawn-highlight-med: #dfdad9;
+	--dawn-highlight-high: #cecacd;
+}
+
+* {
+	animation: none !important; /* 做不好就別做 */
+}
+
+html,
+body {
+	background: var(--dawn-base) !important;
+	color: var(--dawn-text) !important;
+	font-family: sans-serif;
+}
+
+body,
+input,
+textarea,
+select,
+button {
+	color: var(--dawn-text) !important;
+}
+
+a {
+	color: var(--dawn-pine) !important;
+}
+
+a:hover {
+	color: var(--dawn-foam) !important;
+}
+
+.navbar,
+.navbar.fixed-top,
+.secondary-navigation,
+.drawer,
+.card,
+.dropdown-menu,
+.popover-region-container,
+.modal-content,
+.list-group-item,
+.activity-item,
+.forumpost,
+.section,
+.block,
+.bg-white {
+	background: var(--dawn-surface) !important;
+	color: var(--dawn-text) !important;
+	border-color: var(--dawn-highlight-med) !important;
+}
+
+.btn,
+.btn-secondary,
+.btn-light,
+.btn-outline-secondary,
+.page-link,
+.form-control,
+.custom-select,
+select,
+input,
+textarea {
+	background: var(--dawn-overlay) !important;
+	color: var(--dawn-text) !important;
+	border-color: var(--dawn-highlight-high) !important;
+	box-shadow: none !important;
+}
+
+.btn-primary,
+.btn-success,
+.badge-primary {
+	background: var(--dawn-iris) !important;
+	border-color: var(--dawn-iris) !important;
+	color: var(--dawn-surface) !important;
+}
+
+.text-muted,
+.text-secondary,
+.text-body-secondary,
+small,
+.dimmed_text {
+	color: var(--dawn-subtle) !important;
+}
+
+.border,
+.border-top,
+.border-bottom,
+.border-left,
+.border-right,
+hr {
+	border-color: var(--dawn-highlight-med) !important;
+}
+
+.dropdown-item:hover,
+.list-group-item:hover,
+.page-link:hover,
+tr:hover td {
+	background: var(--dawn-highlight-low) !important;
+}
+
+.usermenu .dropdown-toggle,
+.popover-region-toggle,
+.nav-link,
+.navbar-brand {
+	color: var(--dawn-text) !important;
+}
+
+.count-container,
+.badge,
+.notification.badge {
+	background: var(--dawn-love) !important;
+	color: var(--dawn-surface) !important;
+}
+
+.card,
+.block,
+.section,
+.forumpost,
+.dropdown-menu,
+.popover-region-container,
+.modal-content {
+	border-radius: 18px !important;
+}
+
+#page.drawers #topofscroll,
+.course-content,
+#region-main {
+	background-color: transparent;
+}
+
+#theme_boost-drawers-courseindex {
+	background: transparent !important;
+}
+
+#page.drawers div[role="main"] {
+	padding: 0 !important;
+}
+
+.drawercontent {
+	padding: 0 1rem;
+}
+
+@media (min-width: 992px) {
+	#page-wrapper #page {
+		margin-left: 0;
+	}
+
+	#page {
+		max-width: 1200px;
+		width: 100%;
+	}
+
+	#page-wrapper {
+		align-items: center;
+	}
+}
+
+/* ── 重新樣式化 navbar ── */
+.navbar.fixed-top {
+	height: 72px !important;
+	backdrop-filter: blur(14px) !important;
+	border-bottom: 1px solid var(--dawn-highlight-med) !important;
+	background: color-mix(in srgb, var(--dawn-base) 88%, white 12%) !important;
+	padding: 0 24px !important;
+}
+
+.navbar.fixed-top .navbar-brand img.logo {
+	height: 42px !important;
+	width: auto !important;
+}
+
+/* avatar 放大 */
+#user-menu-toggle .userpicture {
+	width: 36px !important;
+	height: 36px !important;
+	border-radius: 999px !important;
+	object-fit: cover !important;
+}
+
+/* 通知鈴鐺顏色 */
+.popover-region-toggle .fa-bell {
+	color: var(--dawn-text) !important;
+}

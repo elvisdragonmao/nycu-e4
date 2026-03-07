@@ -1,0 +1,455 @@
+* {
+	box-sizing: border-box;
+}
+
+.e3rp-app {
+	min-height: 100vh;
+	background: var(--dawn-base);
+}
+
+.e3rp-topbar {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	height: 94px;
+	background: color-mix(in srgb, var(--dawn-base) 88%, white 12%);
+	border-bottom: 1px solid var(--dawn-highlight-med);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 28px;
+	backdrop-filter: blur(14px);
+}
+
+.e3rp-brand {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	min-width: 0;
+}
+
+.e3rp-brand img {
+	width: 58px;
+	height: 58px;
+	object-fit: contain;
+	border-radius: 14px;
+}
+
+.e3rp-brand-text {
+	font-size: 20px;
+	font-weight: 800;
+	letter-spacing: 0.02em;
+	color: var(--dawn-text);
+}
+
+.e3rp-topbar-right {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+/* ── 移植 Moodle 節點在 dashboard topbar 的樣式 ── */
+
+/* 通知鈴鐺 */
+.e3rp-topbar-right .popover-region-toggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 999px;
+	background: var(--dawn-surface);
+	border: 1px solid var(--dawn-highlight-med);
+	color: var(--dawn-text) !important;
+	cursor: pointer;
+}
+
+.e3rp-topbar-right .count-container {
+	position: absolute;
+	top: -5px;
+	right: -4px;
+	min-width: 18px;
+	height: 18px;
+	padding: 0 5px;
+	border-radius: 999px;
+	background: var(--dawn-love) !important;
+	color: var(--dawn-surface) !important;
+	font-size: 11px;
+	font-weight: 800;
+	display: grid;
+	place-items: center;
+}
+
+/* 語言切換 */
+.e3rp-topbar-right .popover-region.collapsed > a.nav-link {
+	font-weight: 700;
+	color: var(--dawn-text) !important;
+	opacity: 0.9;
+	padding: 4px 6px;
+	text-decoration: none;
+}
+
+.e3rp-topbar-right .popover-region.collapsed > a.semi-transparent {
+	opacity: 0.45;
+}
+
+/* usermenu 頭像按鈕 */
+.e3rp-topbar-right .usermenu-container {
+	display: flex;
+	align-items: center;
+}
+
+.e3rp-topbar-right #user-menu-toggle {
+	padding: 0 !important;
+	background: transparent !important;
+	border: none !important;
+	box-shadow: none !important;
+}
+
+.e3rp-topbar-right #user-menu-toggle .userpicture {
+	width: 40px !important;
+	height: 40px !important;
+	border-radius: 999px !important;
+	object-fit: cover !important;
+	border: 1.5px solid var(--dawn-highlight-high);
+	display: block;
+}
+
+/* dropdown 選單 */
+.e3rp-topbar-right .dropdown-menu {
+	background: var(--dawn-surface) !important;
+	border: 1px solid var(--dawn-highlight-med) !important;
+	border-radius: 14px !important;
+	padding: 8px !important;
+	min-width: 160px;
+}
+
+.e3rp-topbar-right .dropdown-item {
+	color: var(--dawn-text) !important;
+	border-radius: 8px !important;
+	padding: 8px 12px !important;
+}
+
+.e3rp-topbar-right .dropdown-item:hover {
+	background: var(--dawn-highlight-low) !important;
+}
+
+.e3rp-topbar-right .dropdown-divider {
+	border-color: var(--dawn-highlight-med) !important;
+	margin: 4px 0 !important;
+}
+
+.e3rp-main {
+	width: min(1220px, calc(100vw - 48px));
+	margin: 34px auto 56px;
+	display: grid;
+	grid-template-columns: 1.2fr 1fr;
+	gap: 34px;
+}
+
+.e3rp-col {
+	display: flex;
+	flex-direction: column;
+	gap: 42px;
+	min-width: 0;
+}
+
+.e3rp-section {
+	min-width: 0;
+}
+
+.e3rp-section-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px;
+	margin-bottom: 18px;
+}
+
+.e3rp-section-title {
+	margin: 0;
+	font-size: 22px;
+	line-height: 1.2;
+	font-weight: 900;
+	letter-spacing: 0.01em;
+	color: var(--dawn-text);
+}
+
+.e3rp-pill {
+	padding: 8px 14px;
+	border-radius: 999px;
+	background: var(--dawn-overlay);
+	color: var(--dawn-subtle);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.e3rp-term-dropdown {
+	position: relative;
+}
+
+.e3rp-pill-btn {
+	cursor: pointer;
+	border: none;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	transition: background 0.15s ease;
+}
+
+.e3rp-pill-btn:hover {
+	background: var(--dawn-highlight-med);
+}
+
+.e3rp-pill-caret {
+	font-size: 11px;
+	opacity: 0.7;
+}
+
+.e3rp-term-menu {
+	display: none;
+	position: absolute;
+	top: calc(100% + 6px);
+	right: 0;
+	background: var(--dawn-surface);
+	border: 1px solid var(--dawn-highlight-med);
+	border-radius: 14px;
+	padding: 6px;
+	margin: 0;
+	list-style: none;
+	min-width: 110px;
+	z-index: 100;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.e3rp-term-menu.open {
+	display: block;
+}
+
+.e3rp-term-option {
+	padding: 8px 12px;
+	border-radius: 8px;
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 700;
+	color: var(--dawn-subtle);
+	white-space: nowrap;
+}
+
+.e3rp-term-option:hover {
+	background: var(--dawn-highlight-low);
+	color: var(--dawn-text);
+}
+
+.e3rp-term-option.active {
+	background: var(--dawn-highlight-low);
+	color: var(--dawn-text);
+}
+
+.e3rp-card {
+	background: var(--dawn-surface);
+	border: 1px solid var(--dawn-highlight-med);
+	border-radius: 24px;
+}
+
+.e3rp-course-grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+}
+
+.e3rp-course-chip {
+	display: block;
+	padding: 14px 16px;
+	border-radius: 14px;
+	background: var(--dawn-overlay);
+	color: var(--dawn-text);
+	font-weight: 800;
+	line-height: 1.25;
+	border: 1px solid transparent;
+	transition:
+		transform 0.15s ease,
+		border-color 0.15s ease,
+		background 0.15s ease;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.e3rp-course-chip:hover {
+	transform: translateY(-1px);
+	border-color: var(--dawn-highlight-high);
+	background: var(--dawn-highlight-low);
+}
+
+.e3rp-announcements {
+	padding: 24px;
+	max-height: 400px;
+	overflow-y: auto;
+}
+
+.e3rp-announcement {
+	padding: 14px 16px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.28);
+	border: 1px solid transparent;
+}
+
+.e3rp-announcement + .e3rp-announcement {
+	margin-top: 12px;
+}
+
+.e3rp-announcement-meta {
+	color: var(--dawn-subtle);
+	font-size: 13px;
+	margin-bottom: 4px;
+}
+
+.e3rp-announcement-course {
+	font-weight: 800;
+	color: var(--dawn-text);
+}
+
+.e3rp-announcement-title {
+	font-size: 15px;
+	font-weight: 900;
+	color: var(--dawn-text);
+	margin-bottom: 4px;
+}
+
+.e3rp-announcement-desc {
+	font-size: 14px;
+	line-height: 1.45;
+	color: var(--dawn-subtle);
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 2;
+	overflow: hidden;
+}
+
+.e3rp-profile-card {
+	padding: 26px 30px;
+	display: grid;
+	grid-template-columns: 90px 1fr;
+	gap: 22px;
+	align-items: center;
+}
+
+.e3rp-profile-pic {
+	width: 72px;
+	height: 72px;
+	border-radius: 999px;
+	overflow: hidden;
+	background: var(--dawn-highlight-med);
+	border: 1px solid var(--dawn-highlight-high);
+}
+
+.e3rp-profile-pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.e3rp-profile-name {
+	font-size: 22px;
+	font-weight: 900;
+	margin-bottom: 8px;
+}
+
+.e3rp-profile-line {
+	font-size: 15px;
+	line-height: 1.55;
+	color: var(--dawn-subtle);
+}
+
+.e3rp-profile-line b {
+	color: var(--dawn-text);
+}
+
+.e3rp-events {
+	padding: 18px;
+}
+
+.e3rp-event {
+	display: flex;
+	gap: 14px;
+	padding: 14px 16px;
+	border-radius: 16px;
+	background: rgba(255, 255, 255, 0.28);
+}
+
+.e3rp-event + .e3rp-event {
+	margin-top: 12px;
+}
+
+.e3rp-event-icon {
+	width: 34px;
+	height: 34px;
+	border-radius: 12px;
+	background: color-mix(in srgb, var(--dawn-iris) 18%, white 82%);
+	color: var(--dawn-iris);
+	display: grid;
+	place-items: center;
+	flex: 0 0 auto;
+	font-size: 18px;
+}
+
+.e3rp-event-title {
+	font-size: 16px;
+	font-weight: 900;
+	color: var(--dawn-text);
+	margin-bottom: 4px;
+}
+
+.e3rp-event-time {
+	font-size: 14px;
+	color: var(--dawn-subtle);
+}
+
+.e3rp-empty {
+	padding: 18px;
+	border-radius: 16px;
+	background: var(--dawn-overlay);
+	color: var(--dawn-subtle);
+	font-weight: 700;
+}
+
+@media (max-width: 980px) {
+	.e3rp-main {
+		grid-template-columns: 1fr;
+	}
+
+	.e3rp-course-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 640px) {
+	.e3rp-topbar {
+		padding: 0 16px;
+		height: 78px;
+	}
+
+	.e3rp-brand img {
+		width: 42px;
+		height: 42px;
+	}
+
+	.e3rp-brand-text {
+		font-size: 18px;
+	}
+
+	.e3rp-main {
+		width: min(100vw - 20px, 1220px);
+		margin-top: 22px;
+		gap: 22px;
+	}
+
+	.e3rp-section-title {
+		font-size: 20px;
+	}
+
+	.e3rp-profile-card {
+		grid-template-columns: 1fr;
+	}
+}
