@@ -193,3 +193,8 @@ tr:hover td {
 .popover-region-toggle .fa-bell {
 	color: var(--dawn-text) !important;
 }
+
+#user-menu-toggle{
+	background-color: transparent!important;
+	border: none!important;
+}

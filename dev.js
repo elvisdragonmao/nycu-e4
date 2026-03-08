@@ -31,6 +31,8 @@
 		try {
 			const css = await getText("index.css");
 			GM_addStyle(css);
+			const css2 = await getText("home.css");
+			GM_addStyle(css2);
 			const js = await getText("index.js");
 			const fn = new Function(js);
 			fn();

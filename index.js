@@ -5,7 +5,7 @@
 // @name:zh-TW   NYCU E3 介面最佳化
 // @name:zh      NYCU E3 介面最佳化
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @description  強化 NYCU E3 全站介面與操作體驗。
 // @description:en  Improve NYCU E3 full-site UI/UX.
 // @description:zh-CN  强化 NYCU E3 全站介面与操作体验。
@@ -24,39 +24,20 @@
 (() => {
 	"use strict";
 
+	// 嘗試載入 CSS。如果失敗的話代表可能是使用 dev.js 在跑，交給他就好。
 	try {
-		GM_addStyle("@import url('https://g.elvismao.com/nycu-e4/index.css');");
+		GM_addStyle("@import url('https://g.elvismao.com/nycu-e4/index.css');@import url('https://g.elvismao.com/nycu-e4/home.css');");
 	} catch (err) {
 		console.warn("[TM] Failed to load external CSS, maybe you're in dev mode.");
 	}
 
+	patchNavbar();
+
 	const path = location.pathname.replace(/\/+$/, "") || "/";
 	const isDashboard = location.origin === "https://e3p.nycu.edu.tw" && (path === "/my" || path === "/my/index.php");
+	if (isDashboard) initDashboard();
 
-	if (isDashboard) {
-		document.addEventListener("DOMContentLoaded", initDashboard, { once: true });
-	} else {
-		document.addEventListener("DOMContentLoaded", initSoftTheme, { once: true });
-	}
-
-	function initDashboard() {
-		const langNodes = [...document.querySelectorAll("#usernavigation .popover-region.collapsed")].filter(el => {
-			const a = el.querySelector("a.nav-link");
-			return a && /^\s*(EN|TW)\s*$/.test(a.textContent);
-		});
-		const usermenuNode = document.querySelector('[data-region="usermenu"]');
-
-		const data = extractDashboardData();
-		const app = buildDashboardApp(data, { notifNode, langNodes, usermenuNode });
-
-		document.body.innerHTML = "";
-		document.body.appendChild(app);
-	}
-
-	function initSoftTheme() {
-		GM_addStyle("@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');");
-		patchNavbar();
-	}
+	// --- tool functions ---
 
 	function patchNavbar() {
 		const navbar = document.querySelector("nav.navbar.fixed-top");
@@ -70,10 +51,18 @@
 		// 升級 Gravatar 解析度（頭像 img）
 		const avatarImg = navbar.querySelector("#user-menu-toggle img.userpicture");
 		if (avatarImg?.src) {
-			avatarImg.src = avatarImg.src.replace(/^https?:\/\/[^/]*gravatar\.com\/avatar\/([^?]+).*$/, (_, hash) => `https://secure.gravatar.com/avatar/${hash}?s=200&d=mm`);
+			avatarImg.src = avatarImg.src.replace("s=35", "s=200");
 			avatarImg.removeAttribute("width");
 			avatarImg.removeAttribute("height");
 		}
+	}
+
+	function initDashboard() {
+		const data = extractDashboardData();
+		const app = buildDashboardApp(data);
+
+		document.getElementById("page")?.remove();
+		document.getElementById("page-wrapper").appendChild(app);
 	}
 
 	function extractDashboardData() {
@@ -81,7 +70,7 @@
 
 		const avatarRaw = document.querySelector("#user-menu-toggle img")?.src || document.querySelector(".myprofileitem.picture img")?.src || "";
 		// Gravatar 預設 s=35 畫質很差，換成 200
-		const avatar = avatarRaw.replace(/^https?:\/\/[^/]*gravatar\.com\/avatar\/([^?]+).*$/, (_, hash) => `https://secure.gravatar.com/avatar/${hash}?s=200&d=mm`);
+		const avatar = avatarRaw.replace("s=35", "s=200");
 
 		const notificationCount = cleanText(document.querySelector("#nav-notification-popover-container .count-container")?.textContent) || "";
 
@@ -188,19 +177,11 @@
 		});
 	}
 
-	function buildDashboardApp(data, nodes = {}) {
+	function buildDashboardApp(data) {
 		const app = document.createElement("div");
 		app.className = "e3rp-app";
 
 		app.innerHTML = `
-      <header class="e3rp-topbar">
-        <div class="e3rp-brand">
-          ${data.siteLogo ? `<a href="/my/"><img src="${escapeAttr(data.siteLogo)}" alt="E3@NYCU"></a>` : ""}
-          <div class="e3rp-brand-text">E3@NYCU</div>
-        </div>
-        <div class="e3rp-topbar-right" id="e3rp-topbar-right"></div>
-      </header>
-
       <main class="e3rp-main">
         <div class="e3rp-col">
           <section class="e3rp-section">
@@ -315,23 +296,6 @@
         </div>
       </main>
     `;
-
-		// 把原始有 JS 事件的節點搬進 topbar-right
-		const topbarRight = app.querySelector("#e3rp-topbar-right");
-		if (topbarRight) {
-			if (nodes.notifNode) topbarRight.appendChild(nodes.notifNode);
-			for (const lang of nodes.langNodes || []) topbarRight.appendChild(lang);
-			if (nodes.usermenuNode) {
-				// 升級 avatar 圖片畫質
-				const avatarImg = nodes.usermenuNode.querySelector("#user-menu-toggle img.userpicture");
-				if (avatarImg?.src) {
-					avatarImg.src = avatarImg.src.replace(/^https?:\/\/[^/]*gravatar\.com\/avatar\/([^?]+).*$/, (_, hash) => `https://secure.gravatar.com/avatar/${hash}?s=200&d=mm`);
-					avatarImg.removeAttribute("width");
-					avatarImg.removeAttribute("height");
-				}
-				topbarRight.appendChild(nodes.usermenuNode);
-			}
-		}
 
 		// Term dropdown interaction
 		const termBtn = app.querySelector("#e3rp-term-btn");
