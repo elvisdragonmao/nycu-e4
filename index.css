@@ -90,7 +90,9 @@ textarea {
 .text-secondary,
 .text-body-secondary,
 small,
-.dimmed_text {
+.dimmed_text,
+.editmode-switch-form,
+.navbar.navbar-dark.bg-primary .editmode-switch-form label {
 	color: var(--dawn-subtle) !important;
 }
 
@@ -194,7 +196,7 @@ tr:hover td {
 	color: var(--dawn-text) !important;
 }
 
-#user-menu-toggle{
-	background-color: transparent!important;
-	border: none!important;
+#user-menu-toggle {
+	background-color: transparent !important;
+	border: none !important;
 }

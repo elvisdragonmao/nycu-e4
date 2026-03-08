@@ -5,7 +5,7 @@
 // @name:zh-TW   NYCU E3 介面最佳化
 // @name:zh      NYCU E3 介面最佳化
 // @namespace    http://tampermonkey.net/
-// @version      1.2
+// @version      1.2.1
 // @description  強化 NYCU E3 全站介面與操作體驗。
 // @description:en  Improve NYCU E3 full-site UI/UX.
 // @description:zh-CN  强化 NYCU E3 全站介面与操作体验。
@@ -31,11 +31,17 @@
 		console.warn("[TM] Failed to load external CSS, maybe you're in dev mode.");
 	}
 
-	patchNavbar();
-
 	const path = location.pathname.replace(/\/+$/, "") || "/";
 	const isDashboard = location.origin === "https://e3p.nycu.edu.tw" && (path === "/my" || path === "/my/index.php");
-	if (isDashboard) initDashboard();
+
+	window.addEventListener("DOMContentLoaded", () => {
+		try {
+			patchNavbar();
+			if (isDashboard) initDashboard();
+		} catch (err) {
+			console.error("[TM] Error in main execution:", err);
+		}
+	});
 
 	// --- tool functions ---
 
@@ -47,6 +53,17 @@
 		navbar.querySelector(".primary-navigation")?.remove();
 		navbar.querySelector("ul.navbar-nav.d-none.d-md-flex")?.remove();
 		navbar.querySelector(".navbar-toggler")?.remove();
+
+		document.querySelector("nav .navbar-brand").innerHTML = `
+			<img src="https://g.elvismao.com/nycu-e4/e3.svg" alt="E3 Logo" style="height:32px; margin-right:8px;">
+			<span style="font-weight:700;">NYCU E3</span>
+		`;
+
+		// set favicon
+		const favicon = document.querySelector('link[rel="icon"]') || document.createElement("link");
+		favicon.rel = "icon";
+		favicon.href = "https://g.elvismao.com/nycu-e4/e3.svg";
+		document.head.appendChild(favicon);
 
 		// 升級 Gravatar 解析度（頭像 img）
 		const avatarImg = navbar.querySelector("#user-menu-toggle img.userpicture");
@@ -233,7 +250,7 @@
                 ${data.avatar ? `<img src="${escapeAttr(data.avatar)}" alt="profile">` : ""}
               </div>
               <div>
-                <div class="e3rp-profile-name">已登入使用者</div>
+                <div class="e3rp-profile-name">${escapeHTML(data.profileName)}</div>
                 ${data.country ? `<div class="e3rp-profile-line"><b>國家:</b> ${escapeHTML(data.country)}</div>` : ""}
                 ${data.englishName ? `<div class="e3rp-profile-line"><b>英文姓名:</b> ${escapeHTML(data.englishName)}</div>` : ""}
                 ${data.email ? `<div class="e3rp-profile-line"><b>電子郵件信箱:</b> ${escapeHTML(data.email)}</div>` : ""}
