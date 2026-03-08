@@ -1,6 +1,6 @@
 # NYCU E4
 
-一個 NYCU E3 的外觀修改套件。使用 Tampermonkey 等類似工具安裝後，會對 NYCU E3 的全站介面進行優化，提升使用體驗。
+一個 NYCU E3 的外觀修改套件。使用 Tampermonkey 等類似工具安裝後，會對 NYCU E3 的全站介面進行最佳化，提升使用體驗。
 
 ## 使用方式
 

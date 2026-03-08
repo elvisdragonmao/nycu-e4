@@ -26,7 +26,5 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "22"
-      - name: Install dependencies
-        run: npm install prettier
       - name: Run Prettier check
-        run: npm prettier --check .
+        run: npx prettier --check .
