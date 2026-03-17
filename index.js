@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name         NYCU E3 UI Plus
-// @name:en      NYCU E3 UI Plus
-// @name:zh-CN   NYCU E3 介面優化
-// @name:zh-TW   NYCU E3 介面最佳化
-// @name:zh      NYCU E3 介面最佳化
+// @name         NYCU EM3 - E3 UI Plus
+// @name:en      NYCU EM3 - E3 Interface Optimization
+// @name:zh-CN   NYCU EM3 - E3 介面最佳化
+// @name:zh-TW   NYCU EM3 - E3 介面最佳化
+// @name:zh      NYCU EM3 - E3 介面最佳化
 // @namespace    http://tampermonkey.net/
-// @version      1.2.3
+// @version      1.2.4
 // @description  強化 NYCU E3 全站介面與操作體驗。
 // @description:en  Improve NYCU E3 full-site UI/UX.
 // @description:zh-CN  强化 NYCU E3 全站介面与操作体验。
