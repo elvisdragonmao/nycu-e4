@@ -1,7 +1,7 @@
 .e3rp-app {
 	min-height: 100vh;
 	background: var(--dawn-base);
-	flex:1;
+	flex: 1;
 }
 
 .e3rp-main {
