@@ -146,36 +146,19 @@ tr:hover td {
 	background: transparent !important;
 }
 
-#page.drawers div[role="main"] {
-	padding: 0 !important;
-}
-
-.drawercontent {
-	padding: 0 1rem;
-}
-
-@media (min-width: 992px) {
-	#page-wrapper #page {
-		margin-left: 0;
-	}
-
-	#page {
-		max-width: 1200px;
-		width: 100%;
-	}
-
-	#page-wrapper {
-		align-items: center;
-	}
-}
-
 /* ── 重新樣式化 navbar ── */
+
 .navbar.fixed-top {
 	height: 72px !important;
 	backdrop-filter: blur(14px) !important;
 	border-bottom: 1px solid var(--dawn-highlight-med) !important;
 	background: color-mix(in srgb, var(--dawn-base) 88%, white 12%) !important;
 	padding: 0 24px !important;
+	display: flex !important;
+}
+
+.navbar-brand {
+	display: flex !important;
 }
 
 .navbar.fixed-top .navbar-brand img.logo {
@@ -240,4 +223,42 @@ button.btn-close:focus,
 
 .navbar.navbar-dark.bg-primary .nav-link i.icon {
 	color: var(--dawn-text) !important;
+}
+
+#page-wrapper {
+	display: flex;
+	flex-direction: row;
+	gap: 16px;
+	padding: 112px 32px 32px 32px;
+}
+.drawer {
+	position: static;
+	flex-shrink: 0;
+}
+
+.drawercontent,
+.drawer-left {
+	height: unset;
+}
+
+.drawerheader,
+#theme_boost-drawers-primary {
+	display: none;
+}
+
+.drawercontent {
+	overflow: unset;
+	padding: 0;
+}
+
+#page-wrapper #page {
+	padding: 0 !important;
+	margin: 0 !important;
+	max-width: 1200px;
+	flex: 1;
+	width: 0;
+}
+
+#page-wrapper #page *:has(> table) {
+	overflow-x: auto;
 }

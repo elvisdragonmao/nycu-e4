@@ -1,14 +1,15 @@
 .e3rp-app {
 	min-height: 100vh;
 	background: var(--dawn-base);
+	flex:1;
 }
 
 .e3rp-main {
-	width: min(1220px, calc(100vw - 48px));
-	margin: 112px auto 56px;
+	margin: auto;
 	display: grid;
 	grid-template-columns: 1.2fr 1fr;
 	gap: 34px;
+	max-width: 1200px;
 }
 
 .e3rp-col {
@@ -299,7 +300,6 @@
 
 @media (max-width: 640px) {
 	.e3rp-main {
-		width: min(100vw - 20px, 1220px);
 		gap: 22px;
 	}
 

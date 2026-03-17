@@ -5,7 +5,7 @@
 // @name:zh-TW   NYCU E3 介面最佳化
 // @name:zh      NYCU E3 介面最佳化
 // @namespace    http://tampermonkey.net/
-// @version      1.2.2
+// @version      1.2.3
 // @description  強化 NYCU E3 全站介面與操作體驗。
 // @description:en  Improve NYCU E3 full-site UI/UX.
 // @description:zh-CN  强化 NYCU E3 全站介面与操作体验。
