@@ -262,3 +262,7 @@ button.btn-close:focus,
 #page-wrapper #page *:has(> table) {
 	overflow-x: auto;
 }
+
+.drawer.drawer-left {
+	visibility: visible;
+}
