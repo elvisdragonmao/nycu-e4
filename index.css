@@ -1,30 +1,52 @@
 :root {
-	--dawn-base: #faf4ed;
-	--dawn-surface: #fffaf3;
-	--dawn-overlay: #f2e9e1;
-	--dawn-muted: #9893a5;
-	--dawn-subtle: #797593;
-	--dawn-text: #575279;
-	--dawn-love: #b4637a;
-	--dawn-gold: #ea9d34;
-	--dawn-rose: #d7827e;
-	--dawn-pine: #286983;
-	--dawn-foam: #56949f;
-	--dawn-iris: #907aa9;
-	--dawn-highlight-low: #f4ede8;
-	--dawn-highlight-med: #dfdad9;
-	--dawn-highlight-high: #cecacd;
+	--em-base: #faf4ed;
+	--em-surface: #fffaf3;
+	--em-overlay: #f2e9e1;
+	--em-muted: #9893a5;
+	--em-subtle: #797593;
+	--em-text: #575279;
+	--em-love: #b4637a;
+	--em-gold: #ea9d34;
+	--em-rose: #d7827e;
+	--em-pine: #286983;
+	--em-foam: #56949f;
+	--em-iris: #907aa9;
+	--em-highlight-low: #f4ede8;
+	--em-highlight-med: #dfdad9;
+	--em-highlight-high: #cecacd;
+}
+
+.darkmode {
+	--em-base: #232136;
+	--em-surface: #2a273f;
+	--em-overlay: #393552;
+	--em-muted: #6e6a86;
+	--em-subtle: #908caa;
+	--em-text: #e0def4;
+	--em-love: #eb6f92;
+	--em-gold: #f6c177;
+	--em-rose: #ea9a97;
+	--em-pine: #3e8fb0;
+	--em-foam: #9ccfd8;
+	--em-iris: #c4a7e7;
+	--em-highlight-low: #44415a; /* 2a283e */
+	--em-highlight-med: #44415a;
+	--em-highlight-high: #56526e;
 }
 
 * {
 	animation: none !important; /* 做不好就別做 */
 }
 
-html,
 body {
-	background: var(--dawn-base) !important;
-	color: var(--dawn-text) !important;
+	background: var(--em-base) !important;
+	color: var(--em-text) !important;
 	font-family: sans-serif;
+	transition:
+		background-color 0.3s ease,
+		color 0.3s ease !important;
+	height: unset;
+	min-height: 100vh;
 }
 
 body,
@@ -32,15 +54,16 @@ input,
 textarea,
 select,
 button {
-	color: var(--dawn-text) !important;
+	color: var(--em-text) !important;
 }
 
 a {
-	color: var(--dawn-pine) !important;
+	color: var(--em-pine) !important;
 }
 
-a:hover {
-	color: var(--dawn-foam) !important;
+a:hover,
+.generaltable tbody tr:hover {
+	color: var(--em-foam) !important;
 }
 
 .navbar,
@@ -56,10 +79,14 @@ a:hover {
 .forumpost,
 .section,
 .block,
-.bg-white {
-	background: var(--dawn-surface) !important;
-	color: var(--dawn-text) !important;
-	border-color: var(--dawn-highlight-med) !important;
+.bg-white,
+.bg-light,
+.pagelayout-frontpage .theme_boost_union-catlisting > .content > .subcategories,
+.pagelayout-coursecategory .theme_boost_union-catlisting > .content > .subcategories,
+#page-course-search .theme_boost_union-catlisting > .content > .subcategories {
+	background: var(--em-surface) !important;
+	color: var(--em-text) !important;
+	border-color: var(--em-highlight-med) !important;
 }
 
 .btn,
@@ -72,18 +99,18 @@ a:hover {
 select,
 input,
 textarea {
-	background: var(--dawn-overlay) !important;
-	color: var(--dawn-text) !important;
-	border-color: var(--dawn-highlight-high) !important;
+	background: var(--em-overlay) !important;
+	color: var(--em-text) !important;
+	border-color: var(--em-highlight-high) !important;
 	box-shadow: none !important;
 }
 
 .btn-primary,
 .btn-success,
 .badge-primary {
-	background: var(--dawn-iris) !important;
-	border-color: var(--dawn-iris) !important;
-	color: var(--dawn-surface) !important;
+	background: var(--em-iris) !important;
+	border-color: var(--em-iris) !important;
+	color: var(--em-surface) !important;
 }
 
 .text-muted,
@@ -93,7 +120,7 @@ small,
 .dimmed_text,
 .editmode-switch-form,
 .navbar.navbar-dark.bg-primary .editmode-switch-form label {
-	color: var(--dawn-subtle) !important;
+	color: var(--em-subtle) !important;
 }
 
 .border,
@@ -102,28 +129,28 @@ small,
 .border-left,
 .border-right,
 hr {
-	border-color: var(--dawn-highlight-med) !important;
+	border-color: var(--em-highlight-med) !important;
 }
 
 .dropdown-item:hover,
 .list-group-item:hover,
 .page-link:hover,
 tr:hover td {
-	background: var(--dawn-highlight-low) !important;
+	background: var(--em-highlight-low) !important;
 }
 
 .usermenu .dropdown-toggle,
 .popover-region-toggle,
 .nav-link,
 .navbar-brand {
-	color: var(--dawn-text) !important;
+	color: var(--em-text) !important;
 }
 
 .count-container,
 .badge,
 .notification.badge {
-	background: var(--dawn-love) !important;
-	color: var(--dawn-surface) !important;
+	background: var(--em-love) !important;
+	color: var(--em-surface) !important;
 }
 
 .card,
@@ -146,15 +173,50 @@ tr:hover td {
 	background: transparent !important;
 }
 
+.generaltable tbody tr:nth-of-type(2n + 1) {
+	background-color: var(--em-highlight-low);
+}
+
+.generaltable tbody tr:nth-of-type(2n) {
+	background-color: var(--em-highlight-med);
+}
+.generaltable {
+	color: inherit;
+}
+
+.secondary-navigation .navigation {
+	background-color: var(--em-highlight-surface);
+}
+
+.moremenu .nav-tabs {
+	background-color: transparent;
+}
+
+.moremenu .nav-link:hover,
+.moremenu .nav-link:focus {
+	background-color: var(--em-highlight-low);
+}
+
+.secondary-navigation .navigation {
+	border: none;
+}
+.secondary-navigation {
+	padding-bottom: 0;
+}
+
 /* ── 重新樣式化 navbar ── */
 
 .navbar.fixed-top {
 	height: 72px !important;
 	backdrop-filter: blur(14px) !important;
-	border-bottom: 1px solid var(--dawn-highlight-med) !important;
-	background: color-mix(in srgb, var(--dawn-base) 88%, white 12%) !important;
+	border-bottom: 1px solid var(--em-highlight-med) !important;
+	background: color-mix(in srgb, var(--em-base) 88%, white 12%) !important;
 	padding: 0 24px !important;
 	display: flex !important;
+}
+
+.darkmode .navbar.fixed-top {
+	background: color-mix(in srgb, var(--em-base) 88%, black 12%) !important;
 }
 
 .navbar-brand {
@@ -176,7 +238,21 @@ tr:hover td {
 
 /* 通知鈴鐺顏色 */
 .popover-region-toggle .fa-bell {
-	color: var(--dawn-text) !important;
+	color: var(--em-text) !important;
+}
+
+/* 主題切換按鈕樣式 */
+#theme-toggle {
+	transition:
+		transform 0.2s ease,
+		opacity 0.3s ease !important;
+	font-size: 18px !important;
+	cursor: pointer !important;
+}
+
+#theme-toggle:hover {
+	transform: scale(1.1) !important;
+	opacity: 0.8 !important;
 }
 
 #user-menu-toggle {
@@ -222,7 +298,7 @@ button.btn-close:focus,
 }
 
 .navbar.navbar-dark.bg-primary .nav-link i.icon {
-	color: var(--dawn-text) !important;
+	color: var(--em-text) !important;
 }
 
 #page-wrapper {
@@ -230,7 +306,9 @@ button.btn-close:focus,
 	flex-direction: row;
 	gap: 16px;
 	padding: 112px 32px 32px 32px;
+	position: relative;
 }
+
 .drawer {
 	position: static;
 	flex-shrink: 0;
@@ -239,6 +317,11 @@ button.btn-close:focus,
 .drawercontent,
 .drawer-left {
 	height: unset;
+}
+
+.drawer-left{
+	position: sticky;
+	top: 112px;
 }
 
 .drawerheader,

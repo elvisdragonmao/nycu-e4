@@ -5,7 +5,7 @@
 // @name:zh-TW   NYCU EM3 - E3 介面最佳化
 // @name:zh      NYCU EM3 - E3 介面最佳化
 // @namespace    http://tampermonkey.net/
-// @version      1.2.5
+// @version      1.2.6
 // @description  強化 NYCU E3 全站介面與操作體驗。
 // @description:en  Improve NYCU E3 full-site UI/UX.
 // @description:zh-CN  强化 NYCU E3 全站介面与操作体验。
@@ -38,6 +38,7 @@
 	function boot() {
 		try {
 			console.log(`[TM] NYCU E3 UI Plus loaded. Dashboard: ${isDashboard}, English: ${isEnglish}`);
+			initTheme();
 			patchNavbar();
 			if (isDashboard) initDashboard();
 		} catch (err) {
@@ -52,6 +53,52 @@
 	}
 
 	// --- tool functions ---
+	function initTheme() {
+		const savedTheme = localStorage.getItem("em-theme");
+
+		if (savedTheme === "dark") {
+			document.body.classList.add("darkmode");
+		} else if (savedTheme === "light") {
+			document.body.classList.remove("darkmode");
+		} else {
+			const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+			if (prefersDark) {
+				document.body.classList.add("darkmode");
+			}
+		}
+
+		window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", e => {
+			if (!localStorage.getItem("em-theme")) {
+				if (e.matches) {
+					document.body.classList.add("darkmode");
+				} else {
+					document.body.classList.remove("darkmode");
+				}
+			}
+		});
+	}
+
+	function toggleTheme() {
+		const isDark = document.body.classList.contains("darkmode");
+
+		if (isDark) {
+			document.body.classList.remove("darkmode");
+			localStorage.setItem("em-theme", "light");
+		} else {
+			document.body.classList.add("darkmode");
+			localStorage.setItem("em-theme", "dark");
+		}
+
+		updateThemeToggleIcon(!isDark);
+	}
+
+	function updateThemeToggleIcon(isDark) {
+		const toggleBtn = document.querySelector("#theme-toggle");
+		if (toggleBtn) {
+			toggleBtn.innerHTML = isDark ? "☀️" : "🌙";
+			toggleBtn.setAttribute("aria-label", isDark ? "切換到亮色模式" : "切換到暗色模式");
+		}
+	}
 
 	function patchNavbar() {
 		const navbar = document.querySelector("nav.navbar.fixed-top");
@@ -66,6 +113,29 @@
 			<img src="https://g.elvismao.com/nycu-em3/e3.svg" alt="E3 Logo" style="height:32px; margin-right:8px;">
 			<span style="font-weight:700;">NYCU E3</span>
 		`;
+
+		// Add theme toggle button to navbar
+		const userNavigation = navbar.querySelector("#usernavigation");
+		if (userNavigation) {
+			const themeToggleContainer = document.createElement("div");
+			themeToggleContainer.className = "popover-region collapsed";
+
+			const isDark = document.body.classList.contains("darkmode");
+			themeToggleContainer.innerHTML = `
+				<button 
+					id="theme-toggle" 
+					class="nav-link popover-region-toggle position-relative icon-no-margin" 
+					style="background:none; border:none; color:var(--em-text);"
+					aria-label="${isDark ? "切換到亮色模式" : "切換到暗色模式"}"
+				>
+					${isDark ? "☀️" : "🌙"}
+				</button>
+			`;
+
+			userNavigation.insertBefore(themeToggleContainer, userNavigation.firstChild);
+			const toggleBtn = themeToggleContainer.querySelector("#theme-toggle");
+			toggleBtn.addEventListener("click", toggleTheme);
+		}
 
 		// set favicon
 		const favicon = document.querySelector('link[rel="icon"]') || document.createElement("link");
@@ -239,117 +309,117 @@
 
 	function buildDashboardApp(data) {
 		const app = document.createElement("div");
-		app.className = "e3rp-app";
+		app.className = "em-app";
 
 		app.innerHTML = `
-      <main class="e3rp-main">
-        <div class="e3rp-col">
-          <section class="e3rp-section">
-            <div class="e3rp-section-head">
-              <h2 class="e3rp-section-title">課程列表</h2>
+      <main class="em-main">
+        <div class="em-col">
+          <section class="em-section">
+            <div class="em-section-head">
+              <h2 class="em-section-title">課程列表</h2>
               ${
 								data.allTerms.length > 1
-									? `<div class="e3rp-term-dropdown" id="e3rp-term-dropdown">
-                      <button class="e3rp-pill e3rp-pill-btn" id="e3rp-term-btn" aria-haspopup="true" aria-expanded="false">
-                        ${escapeHTML(data.currentTerm)} <span class="e3rp-pill-caret">▾</span>
+									? `<div class="em-term-dropdown" id="em-term-dropdown">
+                      <button class="em-pill em-pill-btn" id="em-term-btn" aria-haspopup="true" aria-expanded="false">
+                        ${escapeHTML(data.currentTerm)} <span class="em-pill-caret">▾</span>
                       </button>
-                      <ul class="e3rp-term-menu" id="e3rp-term-menu" role="listbox">
+                      <ul class="em-term-menu" id="em-term-menu" role="listbox">
                         ${data.allTerms
 													.map(t => {
 														const val = t === "其他" ? "" : t;
-														return `<li class="e3rp-term-option${t === data.currentTerm ? " active" : ""}" role="option" data-term="${escapeAttr(val)}">${escapeHTML(t)}</li>`;
+														return `<li class="em-term-option${t === data.currentTerm ? " active" : ""}" role="option" data-term="${escapeAttr(val)}">${escapeHTML(t)}</li>`;
 													})
 													.join("")}
                       </ul>
                     </div>`
 									: data.currentTerm
-										? `<div class="e3rp-pill">${escapeHTML(data.currentTerm)}</div>`
+										? `<div class="em-pill">${escapeHTML(data.currentTerm)}</div>`
 										: ""
 							}
             </div>
             ${
 							data.courses.length
-								? `<div class="e3rp-course-grid" id="e3rp-course-grid">
+								? `<div class="em-course-grid" id="em-course-grid">
                     ${data.courses
 											.map(
 												course => `
-                          <a class="e3rp-course-chip" href="${escapeAttr(course.href)}" data-term="${escapeAttr(course.term)}"${course.term !== data.currentTerm ? ' style="display:none"' : ""}>
+                          <a class="em-course-chip" href="${escapeAttr(course.href)}" data-term="${escapeAttr(course.term)}"${course.term !== data.currentTerm ? ' style="display:none"' : ""}>
                             ${escapeHTML(data.isEnglish && course.titleEn ? course.titleEn : course.titleZh)}
                           </a>
                         `
 											)
 											.join("")}
                   </div>`
-								: `<div class="e3rp-empty">沒有抓到課程資料</div>`
+								: `<div class="em-empty">沒有抓到課程資料</div>`
 						}
           </section>
 
-          <section class="e3rp-section">
-            <div class="e3rp-section-head">
-              <h2 class="e3rp-section-title">已登入使用者</h2>
+          <section class="em-section">
+            <div class="em-section-head">
+              <h2 class="em-section-title">已登入使用者</h2>
             </div>
-            <div class="e3rp-card e3rp-profile-card">
-              <div class="e3rp-profile-pic">
+            <div class="em-card em-profile-card">
+              <div class="em-profile-pic">
                 ${data.avatar ? `<img src="${escapeAttr(data.avatar)}" alt="profile">` : ""}
               </div>
               <div>
-                <div class="e3rp-profile-name">${escapeHTML(data.profileName)}</div>
-                ${data.country ? `<div class="e3rp-profile-line"><b>國家:</b> ${escapeHTML(data.country)}</div>` : ""}
-                ${data.englishName ? `<div class="e3rp-profile-line"><b>英文姓名:</b> ${escapeHTML(data.englishName)}</div>` : ""}
-                ${data.email ? `<div class="e3rp-profile-line"><b>電子郵件信箱:</b> ${escapeHTML(data.email)}</div>` : ""}
+                <div class="em-profile-name">${escapeHTML(data.profileName)}</div>
+                ${data.country ? `<div class="em-profile-line"><b>國家:</b> ${escapeHTML(data.country)}</div>` : ""}
+                ${data.englishName ? `<div class="em-profile-line"><b>英文姓名:</b> ${escapeHTML(data.englishName)}</div>` : ""}
+                ${data.email ? `<div class="em-profile-line"><b>電子郵件信箱:</b> ${escapeHTML(data.email)}</div>` : ""}
               </div>
             </div>
           </section>
         </div>
 
-        <div class="e3rp-col">
-          <section class="e3rp-section">
-            <div class="e3rp-section-head">
-              <h2 class="e3rp-section-title">課程公告</h2>
+        <div class="em-col">
+          <section class="em-section">
+            <div class="em-section-head">
+              <h2 class="em-section-title">課程公告</h2>
             </div>
-            <div class="e3rp-card e3rp-announcements">
+            <div class="em-card em-announcements">
               ${
 								data.announcements.length
 									? data.announcements
 											.map(
 												item => `
-                          <a class="e3rp-announcement" href="${escapeAttr(item.href)}">
-                            <div class="e3rp-announcement-meta">
-                              <span class="e3rp-announcement-course">${escapeHTML(item.course)}</span>
+                          <a class="em-announcement" href="${escapeAttr(item.href)}">
+                            <div class="em-announcement-meta">
+                              <span class="em-announcement-course">${escapeHTML(item.course)}</span>
                               ${item.time ? ` / ${escapeHTML(item.time)}` : ""}
                             </div>
-                            <div class="e3rp-announcement-title">${escapeHTML(item.title)}</div>
-                            <div class="e3rp-announcement-desc">${escapeHTML(item.info)}</div>
+                            <div class="em-announcement-title">${escapeHTML(item.title)}</div>
+                            <div class="em-announcement-desc">${escapeHTML(item.info)}</div>
                           </a>
                         `
 											)
 											.join("")
-									: `<div class="e3rp-empty">沒有抓到公告資料</div>`
+									: `<div class="em-empty">沒有抓到公告資料</div>`
 							}
             </div>
           </section>
 
-          <section class="e3rp-section">
-            <div class="e3rp-section-head">
-              <h2 class="e3rp-section-title">未來事件</h2>
+          <section class="em-section">
+            <div class="em-section-head">
+              <h2 class="em-section-title">未來事件</h2>
             </div>
-            <div class="e3rp-card e3rp-events">
+            <div class="em-card em-events">
               ${
 								data.events.length
 									? data.events
 											.map(
 												event => `
-                          <a class="e3rp-event" href="${escapeAttr(event.href)}">
-                            <div class="e3rp-event-icon">🎓</div>
+                          <a class="em-event" href="${escapeAttr(event.href)}">
+                            <div class="em-event-icon">🎓</div>
                             <div>
-                              <div class="e3rp-event-title">${escapeHTML(event.title)}</div>
-                              <div class="e3rp-event-time">${escapeHTML(event.time)}</div>
+                              <div class="em-event-title">${escapeHTML(event.title)}</div>
+                              <div class="em-event-time">${escapeHTML(event.time)}</div>
                             </div>
                           </a>
                         `
 											)
 											.join("")
-									: `<div class="e3rp-empty">沒有抓到未來事件</div>`
+									: `<div class="em-empty">沒有抓到未來事件</div>`
 							}
             </div>
           </section>
@@ -358,9 +428,9 @@
     `;
 
 		// Term dropdown interaction
-		const termBtn = app.querySelector("#e3rp-term-btn");
-		const termMenu = app.querySelector("#e3rp-term-menu");
-		const courseGrid = app.querySelector("#e3rp-course-grid");
+		const termBtn = app.querySelector("#em-term-btn");
+		const termMenu = app.querySelector("#em-term-menu");
+		const courseGrid = app.querySelector("#em-course-grid");
 		if (termBtn && termMenu && courseGrid) {
 			let activeTerm = data.currentTerm;
 
@@ -372,13 +442,13 @@
 				termBtn.childNodes[0].textContent = label + " ";
 
 				// Show/hide chips
-				courseGrid.querySelectorAll(".e3rp-course-chip").forEach(chip => {
+				courseGrid.querySelectorAll(".em-course-chip").forEach(chip => {
 					const t = chip.dataset.term;
 					chip.style.display = t === term ? "" : "none";
 				});
 
 				// Update active state in menu
-				termMenu.querySelectorAll(".e3rp-term-option").forEach(opt => {
+				termMenu.querySelectorAll(".em-term-option").forEach(opt => {
 					opt.classList.toggle("active", opt.dataset.term === term);
 				});
 			};
@@ -390,7 +460,7 @@
 			});
 
 			termMenu.addEventListener("click", e => {
-				const option = e.target.closest(".e3rp-term-option");
+				const option = e.target.closest(".em-term-option");
 				if (!option) return;
 				applyTerm(option.dataset.term);
 				termMenu.classList.remove("open");
@@ -432,7 +502,7 @@
 		const match = dateStr.match(/(\d{1,2})月\s*(\d{1,2})日,(\d{1,2}):(\d{2})/);
 		if (!match) return dateStr;
 
-		const [,month, day] = match;
+		const [, month, day] = match;
 		const now = new Date();
 		const currentYear = now.getFullYear();
 
