@@ -111,7 +111,7 @@
 
 		document.querySelector("nav .navbar-brand").innerHTML = `
 			<img src="https://g.elvismao.com/nycu-em3/e3.svg" alt="E3 Logo" style="height:32px; margin-right:8px;">
-			<span style="font-weight:700;">NYCU E3</span>
+			<span style="font-weight:700;">NYCU EM3</span>
 		`;
 
 		// Add theme toggle button to navbar
